@@ -16,26 +16,29 @@ document.addEventListener('DOMContentLoaded', () => {
             placeholder.style.height = btnHeight + 'px';
             placeholder.style.visibility = 'hidden';
             noBtn.parentNode.appendChild(placeholder);
+            
+            // Set position to absolute (relative to container which has position:relative)
+            noBtn.style.position = 'absolute';
         }
 
-        // Get container's inner dimensions
-        const containerRect = container.getBoundingClientRect();
-        const containerPadding = 40; // matches CSS padding
+        // Get the container's dimensions
+        const containerWidth = container.offsetWidth;
+        const containerHeight = container.offsetHeight;
         
-        // Available space inside the container (accounting for padding)
-        const availableWidth = container.clientWidth;
-        const availableHeight = container.clientHeight;
+        // Padding from edges
+        const padding = 20;
 
-        // Set position to absolute (relative to container which has position:relative)
-        noBtn.style.position = 'absolute';
-        
-        // Calculate random position that keeps button fully visible inside the white box
-        const minPos = 10;
-        const maxLeft = availableWidth - btnWidth - minPos;
-        const maxTop = availableHeight - btnHeight - minPos;
+        // Calculate safe bounds (ensuring button stays fully inside)
+        const maxLeft = containerWidth - btnWidth - padding;
+        const maxTop = containerHeight - btnHeight - padding;
 
-        let randomLeft = Math.floor(Math.random() * (maxLeft - minPos)) + minPos;
-        let randomTop = Math.floor(Math.random() * (maxTop - minPos)) + minPos;
+        // Generate random position, clamped to valid range
+        let randomLeft = Math.floor(Math.random() * Math.max(1, maxLeft - padding)) + padding;
+        let randomTop = Math.floor(Math.random() * Math.max(1, maxTop - padding)) + padding;
+
+        // Extra safety: clamp values to ensure they're within bounds
+        randomLeft = Math.max(padding, Math.min(randomLeft, maxLeft));
+        randomTop = Math.max(padding, Math.min(randomTop, maxTop));
 
         noBtn.style.left = `${randomLeft}px`;
         noBtn.style.top = `${randomTop}px`;
