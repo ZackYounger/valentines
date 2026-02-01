@@ -9,18 +9,22 @@ document.addEventListener('DOMContentLoaded', () => {
     function moveButton() {
         const containerRect = container.getBoundingClientRect();
         const noBtnRect = noBtn.getBoundingClientRect();
-        const h1Rect = h1.getBoundingClientRect();
+        const yesBtnRect = yesBtn.getBoundingClientRect();
 
-        const containerPadding = 40;
+        const containerPadding = 20;
 
-        // The button should be below the h1
-        const minY = h1Rect.bottom - containerRect.top + 20; // 20px gap
-        const maxY = containerRect.height - noBtnRect.height - containerPadding;
-        
-        const maxX = containerRect.width - noBtnRect.width - containerPadding * 2;
+        let randomX, randomY;
 
-        let randomX = Math.random() * maxX;
-        let randomY = Math.random() * (maxY - minY) + minY;
+        // Ensure the button does not overlap with the "Yes" button
+        do {
+            randomX = Math.random() * (containerRect.width - noBtnRect.width - containerPadding * 2) + containerPadding;
+            randomY = Math.random() * (containerRect.height - noBtnRect.height - containerPadding * 2) + containerPadding;
+        } while (
+            randomX < yesBtnRect.right &&
+            randomX + noBtnRect.width > yesBtnRect.left &&
+            randomY < yesBtnRect.bottom &&
+            randomY + noBtnRect.height > yesBtnRect.top
+        );
 
         noBtn.style.left = `${randomX}px`;
         noBtn.style.top = `${randomY}px`;
