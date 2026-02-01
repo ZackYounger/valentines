@@ -6,25 +6,39 @@ document.addEventListener('DOMContentLoaded', () => {
     const celebration = document.querySelector('.celebration');
 
     const moveButton = (event) => {
-        // Set position to absolute on the first move.
-        // This makes it jump out of the flex container.
-        if (window.getComputedStyle(noBtn).position !== 'absolute') {
-            noBtn.style.position = 'absolute';
+        const btnWidth = noBtn.offsetWidth;
+        const btnHeight = noBtn.offsetHeight;
+
+        // On first move, create an invisible placeholder to keep Yes in place
+        if (noBtn.style.position !== 'absolute') {
+            const placeholder = document.createElement('div');
+            placeholder.style.width = btnWidth + 'px';
+            placeholder.style.height = btnHeight + 'px';
+            placeholder.style.visibility = 'hidden';
+            noBtn.parentNode.appendChild(placeholder);
         }
 
+        // Get container's inner dimensions
         const containerRect = container.getBoundingClientRect();
-        const noBtnRect = noBtn.getBoundingClientRect();
+        const containerPadding = 40; // matches CSS padding
+        
+        // Available space inside the container (accounting for padding)
+        const availableWidth = container.clientWidth;
+        const availableHeight = container.clientHeight;
 
-        // Calculate the maximum possible top and left positions
-        const maxTop = containerRect.height - noBtnRect.height;
-        const maxLeft = containerRect.width - noBtnRect.width;
+        // Set position to absolute (relative to container which has position:relative)
+        noBtn.style.position = 'absolute';
+        
+        // Calculate random position that keeps button fully visible inside the white box
+        const minPos = 10;
+        const maxLeft = availableWidth - btnWidth - minPos;
+        const maxTop = availableHeight - btnHeight - minPos;
 
-        // Generate a random position within the container
-        let randomTop = Math.floor(Math.random() * maxTop);
-        let randomLeft = Math.floor(Math.random() * maxLeft);
+        let randomLeft = Math.floor(Math.random() * (maxLeft - minPos)) + minPos;
+        let randomTop = Math.floor(Math.random() * (maxTop - minPos)) + minPos;
 
-        noBtn.style.top = `${randomTop}px`;
         noBtn.style.left = `${randomLeft}px`;
+        noBtn.style.top = `${randomTop}px`;
     };
 
     noBtn.addEventListener('mouseover', moveButton);

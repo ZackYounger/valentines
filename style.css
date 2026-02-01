@@ -17,6 +17,8 @@ body {
     max-width: 400px;
     width: 90%;
     position: relative;
+    overflow: hidden;
+    min-height: 400px;
 }
 
 .cat-gif {
@@ -32,34 +34,27 @@ h1 {
 .buttons {
     display: flex;
     justify-content: center;
-    gap: 10px;
+    gap: 20px;
     margin-top: 20px;
-    position: relative;
-    height: 40px; /* Give the container a fixed height */
 }
 
 button {
-    padding: 10px 20px;
+    padding: 10px 30px;
     border: none;
     border-radius: 10px;
     font-size: 16px;
     cursor: pointer;
     transition: background-color 0.3s;
-    position: absolute; /* Both buttons are absolute */
 }
 
 #yesBtn {
     background-color: #ff4081;
     color: white;
-    left: calc(50% - 50px); /* Position Yes button */
-    transform: translateX(-50%);
 }
 
 #noBtn {
     background-color: #f0f0f0;
     color: #333;
-    left: calc(50% + 50px); /* Position No button */
-    transform: translateX(-50%);
 }
 
 .shy-text {
