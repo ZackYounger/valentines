@@ -4,34 +4,31 @@ document.addEventListener('DOMContentLoaded', () => {
     const container = document.getElementById('container');
     const valentineQuestion = document.querySelector('.valentine-question');
     const celebration = document.querySelector('.celebration');
-    const h1 = valentineQuestion.querySelector('h1');
 
-    function moveButton() {
+    const moveButton = (event) => {
+        // Set position to absolute on the first move.
+        // This makes it jump out of the flex container.
+        if (window.getComputedStyle(noBtn).position !== 'absolute') {
+            noBtn.style.position = 'absolute';
+        }
+
         const containerRect = container.getBoundingClientRect();
         const noBtnRect = noBtn.getBoundingClientRect();
-        const yesBtnRect = yesBtn.getBoundingClientRect();
 
-        const containerPadding = 20;
+        // Calculate the maximum possible top and left positions
+        const maxTop = containerRect.height - noBtnRect.height;
+        const maxLeft = containerRect.width - noBtnRect.width;
 
-        let randomX, randomY;
+        // Generate a random position within the container
+        let randomTop = Math.floor(Math.random() * maxTop);
+        let randomLeft = Math.floor(Math.random() * maxLeft);
 
-        // Ensure the button does not overlap with the "Yes" button
-        do {
-            randomX = Math.random() * (containerRect.width - noBtnRect.width - containerPadding * 2) + containerPadding;
-            randomY = Math.random() * (containerRect.height - noBtnRect.height - containerPadding * 2) + containerPadding;
-        } while (
-            randomX < yesBtnRect.right &&
-            randomX + noBtnRect.width > yesBtnRect.left &&
-            randomY < yesBtnRect.bottom &&
-            randomY + noBtnRect.height > yesBtnRect.top
-        );
-
-        noBtn.style.left = `${randomX}px`;
-        noBtn.style.top = `${randomY}px`;
-    }
+        noBtn.style.top = `${randomTop}px`;
+        noBtn.style.left = `${randomLeft}px`;
+    };
 
     noBtn.addEventListener('mouseover', moveButton);
-    noBtn.addEventListener('click', moveButton); // Also move on click
+    noBtn.addEventListener('click', moveButton);
 
     yesBtn.addEventListener('click', () => {
         valentineQuestion.style.display = 'none';

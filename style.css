@@ -29,6 +29,15 @@ h1 {
     margin: 20px 0;
 }
 
+.buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+    position: relative;
+    height: 40px; /* Give the container a fixed height */
+}
+
 button {
     padding: 10px 20px;
     border: none;
@@ -36,18 +45,21 @@ button {
     font-size: 16px;
     cursor: pointer;
     transition: background-color 0.3s;
-    margin: 5px;
+    position: absolute; /* Both buttons are absolute */
 }
 
 #yesBtn {
     background-color: #ff4081;
     color: white;
+    left: calc(50% - 50px); /* Position Yes button */
+    transform: translateX(-50%);
 }
 
 #noBtn {
     background-color: #f0f0f0;
     color: #333;
-    position: absolute;
+    left: calc(50% + 50px); /* Position No button */
+    transform: translateX(-50%);
 }
 
 .shy-text {
